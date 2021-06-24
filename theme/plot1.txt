@@ -78,3 +78,26 @@ open domain psychology rapport
 
 
 chatbot Trust
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+!wget https://github.com/ku-nlp/jumanpp/releases/download/v2.0.0-rc2/jumanpp-2.0.0-rc2.tar.xz && 
+tar xJvf jumanpp-2.0.0-rc2.tar.xz && 
+rm jumanpp-2.0.0-rc2.tar.xz && 
+cd jumanpp-2.0.0-rc2/ && 
+mkdir bld && 
+cd bld && 
+cmake .. 
+  -DCMAKE_BUILD_TYPE=Release 
+  -DCMAKE_INSTALL_PREFIX=/usr/local && 
+make && 
+sudo make install

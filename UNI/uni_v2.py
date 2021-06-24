@@ -37,10 +37,13 @@ class preprocessor:
     def read_json(self, path:str, datalist:list) -> pd.DataFrame:
         cols = ['did', 'tid', 'usr', 'sys', 'ec']
         df = pd.DataFrame(index=[], columns=cols)
-
+        datalist = ['DCM', 'DIT', 'IRS']
         for p in datalist:
             datapath = Path(path + p + '/')
+            print(datapath)
+            # print(list(datapath.glob("*.json")))
             for file in datapath.glob("*.json"):
+                # print(file)
                 with open(file, "r") as f:
                     json_data = json.load(f)
                     did = json_data["dialogue-id"]
@@ -65,6 +68,7 @@ class preprocessor:
         for p in datalist:
             datapath = Path(path + p + '/')
             for file in datapath.glob("*.json"):
+                print(file)
                 with open(file, "r") as f:
                     json_data = json.load(f)
                     did = json_data["dialogue-id"]
@@ -177,14 +181,11 @@ def predict_at_least_oneClass(clf, X) -> np.array:
     return y_pred2
 
 
-
-
-
 if __name__ == "__main__":
     print("start")
     pre = preprocessor()
 
-    path = './error_category_classification/dbdc5_ja_dev_labeled/'
+    path = './UNI/error_category_classification/dbdc5_ja_dev_labeled/'
     datalist = ['DCM']
     # List of error types
     error_types = ['Ignore question', 'Unclear intention', 
@@ -198,6 +199,7 @@ if __name__ == "__main__":
     
     # df = pre.read_json_with_NoErr(path, datalist)
     df = pre.read_json(path, datalist)
+    print(df.shape)
 
     # X = pre.feature_extraction_context2(df)
     X = pre.feature_extraction(df)
