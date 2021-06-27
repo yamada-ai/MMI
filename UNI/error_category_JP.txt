@@ -1,0 +1,33 @@
+'Ignore question'
+    質問無視
+'Unclear intention', 
+    発話意図不明確
+'Wrong information'
+    誤情報
+'Topic transition error'
+    話題遷移エラー
+'Lack of information'
+    情報不足
+'Repetition'
+    繰り返し
+'Semantic error'
+    用法エラー
+'Self-contradiction',
+    自己矛盾
+'Contradiction'
+    相手発話との矛盾
+'Grammatical error', 
+    文法エラー
+'Ignore offer'
+    依頼無視
+'Ignore proposal',
+    提案無視
+'Lack of sociality'
+    社会性欠如
+'Lack of common sense'
+    常識欠如
+'Uninterpretable'
+    解釈不能
+'Ignore greeting'
+    挨拶無視
+    
