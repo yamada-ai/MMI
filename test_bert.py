@@ -41,6 +41,7 @@ if __name__ == "__main__":
     
     model.eval()
     with torch.no_grad():
+
         outputs = model(tokens_tensor)
         predictions = outputs[0]
     _,predicted_indexes = torch.topk(predictions[0, masked_index], k=10)
