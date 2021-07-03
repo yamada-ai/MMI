@@ -3,3 +3,4 @@ Pipfile.lock
 .vscode/
 UNI/error_category_classification/
 UNI/models/
+UNI/X_y_data/
