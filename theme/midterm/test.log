@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.10.7)  12 JUL 2021 17:27
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.10.7)  13 JUL 2021 11:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -168,12 +168,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ]
 (./test.aux) ) 
 Here is how much of TeX's memory you used:
- 1190 strings out of 480388
- 17783 string characters out of 5898321
- 304270 words of memory out of 5000000
- 18023 multiletter control sequences out of 15000+600000
+ 1191 strings out of 480388
+ 17788 string characters out of 5898321
+ 304273 words of memory out of 5000000
+ 18024 multiletter control sequences out of 15000+600000
  544133 words of font info for 69 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  60i,7n,66p,433b,250s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on test.dvi (1 page, 7084 bytes).
+Output written on test.dvi (1 page, 6468 bytes).
