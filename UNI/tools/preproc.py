@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 import pandas as pd
 import numpy as np
+from pkg_resources import normalize_path
 import spacy
 import re
 
@@ -43,12 +44,20 @@ class Preprocessor:
 
         else:
             return None
-        print("aaa")
         docs = list(self.nlp.pipe(texts, disable=['ner']))
         for doc in docs:
             pos_list.append([ token.tag_ for token in doc ])
         
         return pos_list
+    
+    def noun2normal(self, sen):
+        normalize_sen = []
+        docs = list(self.nlp.pipe(sen, disable=['ner']))
+
+        for doc in docs:
+            normalize_sen.append( [ token.tag_ if "名詞" in token.tag_ else token.orth_ for token in doc ] )
+        
+        return normalize_sen
             
     
     def read_json_with_NoErr(self, path:str, datalist:list) -> pd.DataFrame:
@@ -141,7 +150,19 @@ class Preprocessor:
 
 
 if __name__ == '__main__':
-    texts = ['そうですね。最近とても暑いですから。', '休日に行きたいと思います。']
+    texts = ['そうですね。',
+ '最近とても暑いですから。',
+ '休日に行きたいと思います。',
+ 'はい。',
+ 'あなたは海に行きますか？',
+ '何故ですか？',
+ 'そうですか。',
+ '山に行くのはどうでしょうか？',
+ '山はお好きなのですか？',
+ '山のおすすめのスポットはご存知ですか？',
+ 'どこに行くといいですか？',
+ '明日はとても暑くなるみたいですね。',
+ '涼しくなってきたら、一緒に山へ行きたいですね。']
     # texts = texts[0]
     pre = Preprocessor()
     pos = pre.get_POS(texts)
