@@ -3,9 +3,12 @@ Pipfile.lock
 .vscode/
 corpus/
 UNI/error_category_classification/
+UNI/nucc/
 UNI/models/
 UNI/X_y_data/
 UNI/__pycache__
 UNI/tools/__pycache__
 UNI/utterance/X_y_data
 UNI/utterance/models
+
+LiveComp/__pycache__

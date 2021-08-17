@@ -1,0 +1,4 @@
+
+name : test_bot
+name_id : LIVE_HOGE_BOT
+token : 1916073125:AAH72XaNI7EfNxEa3mEQt8upFLXgs7EGZK0

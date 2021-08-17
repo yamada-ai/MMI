@@ -1,0 +1,15 @@
+
+
+1. Towards Emotion-aided Multi-modal Dialogue Act Classification
+    表情も重要な手がかりになるという仮説
+    マルチモーダルで，マルチタスクを実行
+
+
+2. Two-level classification for dialogue act recognition in task-oriented dialogues
+    https://aclanthology.org/2020.coling-main.431/
+    　本論文では、一般的な対話行為と特定の対話行為（DA）を区別する2レベルの分類手法を紹介します。このアプローチにより、第1レベルでのジェネリックDA分類の非常に優れた精度の恩恵を受けることができ、高レベルの言語的特徴に基づいた、特定のDAのための効率的なアプローチを提案することができる。
+    　タスク志向だった
+
+
+3. 情報ナビゲーションと気配りリスニングの日本語対話コーパス拡張されたISO-24617-2対話行為タグによるアノテーション
+    
