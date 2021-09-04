@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+from numpy.lib.function_base import percentile
 import pandas as pd
 import numpy as np
 from pkg_resources import normalize_path
@@ -10,6 +11,7 @@ class Preprocessor:
 
     def __init__(self) -> None:
         self.nlp = spacy.load('ja_ginza')
+        self.nlp.add_pipe(self.nlp.create_pipe('sentencizer'))
         # self.model_path = "/home/yamada/Downloads/training_bert_japanese"
         # self.sen_model = SentenceTransformer(self.model_path, show_progress_bar=False)
 
@@ -21,6 +23,9 @@ class Preprocessor:
         
         self.emb_size = self.get_sentence_vec("emb").shape[0]
         print(self.emb_size)
+
+        self.independent_words = set("名詞 代名詞 動詞 形容詞 副詞 接続詞 感動詞 連体詞".split() )
+
 
     def get_sentence_vec(self, sen) -> np.array:
         # sen_ = self.DELETE_PATTERN_1.sub(sen)
@@ -50,12 +55,62 @@ class Preprocessor:
         
         return pos_list
     
+    def get_lemma(self, sen):
+        lemma_list = []
+        if isinstance(sen, str):
+            doc = self.nlp(sen)
+            texts = [str(s)  for s in doc.sents]
+
+        elif isinstance(sen, list):
+            texts = []
+            docs = list(self.nlp.pipe(sen, disable=['ner']))
+            # return [ self.get_POS(sen_) for sen_ in sen]
+            for doc in docs:
+                texts.extend( [str(s) for s in doc.sents] )
+
+        else:
+            return None
+        docs = list(self.nlp.pipe(texts, disable=['ner']))
+        for doc in docs:
+            lemma_list.append([ token.lemma_ for token in doc ])
+        
+        return lemma_list
+    
+    def extract_indepent_word(self, sen):
+        indepent_list = []
+        if isinstance(sen, str):
+            doc = self.nlp(sen)
+            texts = [str(s)  for s in doc.sents]
+
+        elif isinstance(sen, list):
+            texts = []
+            docs = list(self.nlp.pipe(sen, disable=['ner']))
+            # return [ self.get_POS(sen_) for sen_ in sen]
+            for doc in docs:
+                texts.extend( [str(s) for s in doc.sents] )
+
+        else:
+            return None
+        docs = list(self.nlp.pipe(texts, disable=['ner']))
+        for doc in docs:
+            words = []
+            for token in doc:
+                tag = token.tag_.split("-")[0]
+                # print(tag)
+                if tag in self.independent_words:
+                    # print(token.lemma_)
+                    words.append(token.lemma_)
+            indepent_list.append(words)
+        
+        return indepent_list
+
+    
     def noun2normal(self, sen):
         normalize_sen = []
         docs = list(self.nlp.pipe(sen, disable=['ner']))
 
         for doc in docs:
-            normalize_sen.append( [ token.tag_ if "名詞" in token.tag_ else token.orth_ for token in doc ] )
+            normalize_sen.append( [ token.tag_ if "名詞" in token.tag_ else token.lemma_ for token in doc ] )
         
         return normalize_sen
             

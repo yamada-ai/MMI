@@ -202,7 +202,7 @@ if __name__ == "__main__":
     # exit()
     # path = '~/Documents/MMI/UNI/error_category_classification/dbdc5_ja_dev_labeled/'
     path = './error_category_classification/dbdc5_ja_dev_labeled/'
-    datalist = ['DCM']
+    datalist = ['DCM', 'DIT', 'IRS']
     # List of error types
     error_types = ['Ignore question', 'Unclear intention', 
             'Wrong information', 'Topic transition error', 
@@ -217,8 +217,8 @@ if __name__ == "__main__":
     # df = pre.read_json(path, datalist)
     print(df.shape)
 
-    X = pre.feature_extraction_context2(df)
-    # X = pre.feature_extraction(df)
+    # X = pre.feature_extraction_context2(df)
+    X = pre.feature_extraction(df)
     print("success feature_extraction")
 
     y = pre.extract_y(df, error_types)
