@@ -24,7 +24,7 @@ class Preprocessor:
         self.emb_size = self.get_sentence_vec("emb").shape[0]
         print(self.emb_size)
 
-        self.independent_words = set("名詞 代名詞 動詞 形容詞 副詞 接続詞 感動詞 連体詞".split() )
+        self.independent_words = set("名詞 代名詞 動詞 形容詞 副詞 詞接続詞 感動詞 連体".split() )
 
 
     def get_sentence_vec(self, sen) -> np.array:
@@ -108,10 +108,49 @@ class Preprocessor:
     def noun2normal(self, sen):
         normalize_sen = []
         docs = list(self.nlp.pipe(sen, disable=['ner']))
-
         for doc in docs:
             normalize_sen.append( [ token.tag_ if "名詞" in token.tag_ else token.lemma_ for token in doc ] )
-        
+        # for doc in docs:
+        #     words = []
+        #     for token in doc:
+        #         tag = token.tag_.split("-")[0]
+        #         # print(tag)
+        #         if tag in ["名詞", "動詞"] :
+        #             # print(token.lemma_)
+        #             words.append(token.lemma_)
+        #     normalize_sen.append(words)
+        return normalize_sen
+    
+    def independent2normal(self, sen):
+        normalize_sen = []
+        docs = list(self.nlp.pipe(sen, disable=['ner']))
+        for doc in docs:
+            words = []
+            for token in doc:
+                tag = token.tag_.split("-")[0]
+                # print(tag)
+                if tag in self.independent_words:
+                    # print(token.lemma_)
+                    words.append(token.tag_)
+                else:
+                    words.append(token.lemma_)
+            normalize_sen.append(words)
+        return normalize_sen
+    
+    def noun_verb_2normal(self, sen):
+        normalize_sen = []
+        docs = list(self.nlp.pipe(sen, disable=['ner']))
+        for doc in docs:
+            words = []
+            for token in doc:
+                tag = token.tag_.split("-")[0]
+                # print(tag)
+                if tag in ["名詞", "動詞"]:
+                    # print(token.lemma_)
+                    words.append(token.tag_)
+                else:
+                    words.append(token.lemma_)
+            normalize_sen.append(words)
         return normalize_sen
             
     

@@ -17,10 +17,10 @@ class Feature:
         # 用いる素性テンプレート(関数名)
         self.feature_types = [
             self.f_pos_order, 
-            self.f_normalize_noun_order,
+            self.f_normalize_Noun_order,
             self.f_order,
-            # self.f_sentence_len
-            self.f_independent_word
+            self.f_normalize_independent_order,
+            self.f_normalize_Noun_Verb_order
         ]
         self.features = {}
         self._init_feature_functions()
@@ -38,34 +38,49 @@ class Feature:
             type_name = type_.__name__
             self.features[type_name] = set()
 
-    def make_features(self, sentences, len_=3):
+    def make_features(self, sentences, len_=4):
         for feature_func in self.feature_types:
             type_name = feature_func.__name__
-            features = feature_func(sentences, len_)
-            self.features[type_name].update(features)
+            if "order" in type_name:
+                for i in range(2, len_+1):
+                    features = feature_func(sentences, int(i))
+                    self.features[type_name].update(features)
+            else:
+                self.features[type_name].update(features)
             # for sentence in sentence_list:
         
         self.numbering_features()
                 
+
     def numbering_features(self):
         self.feature_number_dict = {}
         for feature_func in self.feature_types:
             type_name = feature_func.__name__
             for f in self.features[type_name]:
-                self.feature_number_dict[f] = len(self.feature_number_dict)
+                if f not in self.feature_number_dict.keys():
+                    self.feature_number_dict[f] = len(self.feature_number_dict)
         self.feature_num = len(self.feature_number_dict)
 
 
-    def featurization(self, sentences, len_=3):
+    def featurization(self, sentences, len_=4):
         if isinstance(sentences, str):
             sentences = [sentences]
+        # print("feature num: ", self.feature_num)
         x = np.zeros( self.feature_num )
         for feature_func in self.feature_types:
             type_name = feature_func.__name__
-            features = feature_func(sentences, len_)
-            for f in features:
-                if f in self.feature_number_dict.keys():
-                    x[self.feature_number_dict[f]] = 1
+            if "order" in type_name:
+                for i in range(2, len_+1):
+                    features = feature_func(sentences, int(i))
+                    for f in features:
+                        if f in self.feature_number_dict.keys():
+                            x[self.feature_number_dict[f]] = 1
+            else:
+                # self.features[type_name].update(features)
+                features = feature_func(sentences, len_)
+                for f in features:
+                    if f in self.feature_number_dict.keys():
+                        x[self.feature_number_dict[f]] = 1
         return x
 
     # 品詞のn-gram
@@ -87,8 +102,8 @@ class Feature:
         return feature_set
     
     # 名詞の正規化
-    def f_normalize_noun_order(self, sentences, len_=3):
-        type_ = self.f_normalize_noun_order.__name__
+    def f_normalize_Noun_order(self, sentences, len_=3):
+        type_ = self.f_normalize_Noun_order.__name__
 
         normal = self.pre.noun2normal(sentences)
         random_deleted = map(self.delete_func, normal)
@@ -119,7 +134,37 @@ class Feature:
                 # self.features[type_].add(f)
                 feature_set.add(f)
         return feature_set
+
+    def f_normalize_independent_order(self, sentences, len_=3):
+        type_ = self.f_normalize_Noun_order.__name__
+
+        normal = self.pre.independent2normal(sentences)
+        random_deleted = map(self.delete_func, normal)
+        filled = map(self.filler_func, random_deleted)
+
+        feature_set = set()
+        for L in filled:
+            for i in range(len(L)-len_+1):
+                f = "_".join(L[i:i+len_])
+                # self.features[type_].add(f)
+                feature_set.add(f)
+        return feature_set
     
+    def f_normalize_Noun_Verb_order(self, sentences, len_=3):
+        type_ = self.f_normalize_Noun_order.__name__
+
+        normal = self.pre.noun_verb_2normal(sentences)
+        random_deleted = map(self.delete_func, normal)
+        filled = map(self.filler_func, random_deleted)
+
+        feature_set = set()
+        for L in filled:
+            for i in range(len(L)-len_+1):
+                f = "_".join(L[i:i+len_])
+                # self.features[type_].add(f)
+                feature_set.add(f)
+        return feature_set
+
     def f_sentence_len(self, sentences, len_):
         type_ = self.f_sentence_len.__name__
         
@@ -144,6 +189,7 @@ class Feature:
         return feature_set
 
     def show_features(self):
+        print("features num :", self.feature_num)
         for type_ in self.feature_types:
             type_name = type_.__name__
             print("feature type : {0}, nums : {1}".format(type_name, len(self.features[type_name])))
@@ -157,7 +203,7 @@ class Feature:
 
 
 if __name__ == '__main__':
-    texts = ['そうですね。最近とても暑いですから。', '休日に行きたいと思います。']
+    texts = ['そうですね。最近とても暑いですから。', '休日に行きたいと思いますが，あなたもいかがですか？']
 #     texts = ['そうですね。',
 #  '最近とても暑いですから。',
 #  '休日に行きたいと思います。',
