@@ -24,7 +24,7 @@ class Preprocessor:
         self.emb_size = self.get_sentence_vec("emb").shape[0]
         print(self.emb_size)
 
-        self.independent_words = set("名詞 代名詞 動詞 形容詞 副詞 詞接続詞 感動詞 連体".split() )
+        self.independent_words = set("名詞 代名詞 動詞 形容詞 副詞 接続詞 感動詞 連体詞".split() )
 
 
     def get_sentence_vec(self, sen) -> np.array:

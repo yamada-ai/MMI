@@ -219,7 +219,10 @@ if __name__ == '__main__':
 #  '涼しくなってきたら、一緒に山へ行きたいですね。']
     # texts = texts[0]
     F = Feature()
-    # pos = features.f_pos_order(texts)
+    pos = F.f_pos_order(texts)
     # normal = features.f_normalize_noun_order(texts)
-    F.make_features(texts)
-    F.show_features()
+    # F.make_features(texts)
+    # F.show_features()
+    doc = F.pre.nlp(texts[1])
+    for token in doc:
+        print(token, token.tag_)
