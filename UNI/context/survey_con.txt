@@ -1,5 +1,5 @@
 話題遷移
-
+https://aclanthology.org/2021.sigdial-1.10/
 
 1. 自然な対話継続のための推移する話題推定
     Sidner の焦点モデルを活用した

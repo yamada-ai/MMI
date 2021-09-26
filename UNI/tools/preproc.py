@@ -107,7 +107,7 @@ class Preprocessor:
     
     def noun2normal(self, sen):
         normalize_sen = []
-        docs = list(self.nlp.pipe(sen, disable=['ner']))
+        docs = list(self.nlp(sen, disable=['ner']))
         for doc in docs:
             normalize_sen.append( [ token.tag_ if "名詞" in token.tag_ else token.lemma_ for token in doc ] )
         # for doc in docs:

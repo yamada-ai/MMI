@@ -11,6 +11,7 @@ UNI/__pycache__
 UNI/tools/__pycache__
 UNI/utterance/X_y_data
 UNI/utterance/models
+*/*/__pycache__
 
 
 LiveComp/__pycache__
