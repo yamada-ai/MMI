@@ -3,8 +3,9 @@ import sys
 
 from spacy.util import normalize_slice
 sys.dont_write_bytecode = True
-sys.path.append('../')
-from tools import preproc
+sys.path.append('../datatools')
+# from tools import preproc
+from preproc import Preprocessor
 
 import pprint
 import random
@@ -12,7 +13,7 @@ import numpy as np
 
 class Feature:
     def __init__(self) -> None:
-        self.pre = preproc.Preprocessor()
+        self.pre = Preprocessor()
 
         # 用いる素性テンプレート(関数名)
         self.feature_types = [
