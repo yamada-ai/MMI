@@ -11,7 +11,7 @@ class Preprocessor:
 
     def __init__(self) -> None:
         self.nlp = spacy.load('ja_ginza')
-        self.nlp.add_pipe(self.nlp.create_pipe('sentencizer'))
+        self.nlp.add_pipe('sentencizer')
         # self.model_path = "/home/yamada/Downloads/training_bert_japanese"
         # self.sen_model = SentenceTransformer(self.model_path, show_progress_bar=False)
 
