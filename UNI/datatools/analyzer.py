@@ -80,7 +80,7 @@ pos_preset = [
     "空白",
 ]
 
-filler_func = lambda L: ["FOS", *L, "EOS"]
+filler_func = lambda L: ["FOS", "FOS",  *L, "EOS", "EOS"]
 
 import neologdn
 import re
