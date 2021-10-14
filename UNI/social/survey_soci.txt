@@ -14,3 +14,10 @@ Commonsense Reasoning for Natural Language Processing
 	    常識ベースの事前学習や説明，または常識的関係の予測を用いたマルチタスクによって，パラメータを間接的にパラメータ化（Zhong et al., 2018）
 
 
+
+SocialIQA: Commonsense Reasoning about Social Interactions
+	
+	
+	https://arxiv.org/abs/1904.09728?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%253A+arxiv%252FQSXk+%2528ExcitingAds%2521+cs+updates+on+arXiv.org%2529
+
+
