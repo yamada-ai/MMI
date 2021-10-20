@@ -1,35 +1,31 @@
-import os
-import sys
-
-from spacy.util import normalize_slice
-sys.dont_write_bytecode = True
-sys.path.append('../datatools')
-# from tools import preproc
-from preproc import Preprocessor
-
-import pprint
-import random
+import os, sys, pprint, random
 import numpy as np
+from spacy.util import normalize_slice
+sys.path.append('../')
+from datatools.analyzer import *
 
 class Feature:
     def __init__(self) -> None:
-        self.pre = Preprocessor()
+        # self.pre = preprocess.Preprocessor()
 
         # 用いる素性テンプレート(関数名)
         self.feature_types = [
             self.f_pos_order, 
-            self.f_normalize_Noun_order,
-            self.f_order,
-            self.f_normalize_independent_order,
+            # self.f_normalize_Noun_order,
+            # self.f_order,
+            # self.f_normalize_independent_order,
             self.f_normalize_Noun_Verb_order
         ]
         self.features = {}
         self._init_feature_functions()
 
         # 句点を50%で削除する
-        self.delete_func = lambda L: L[:-1] if (L[-1] == "補助記号-句点" and random.random() > 0.5) else L
+        # self.delete_func = lambda L: L[:-1] if (L[-1] == "補助記号-句点" and random.random() > 0.5) else L
         # FOS, EOS で囲む
-        self.filler_func = lambda L: ["FOS", *L, "EOS"]
+        # self.filler_func = lambda L: ["FOS", *L, "EOS"]
+
+    def fill_SYMBOL(self, L):
+        return ["FOS", *L, "EOS"]
 
     def set_preprocessor(self, pre):
         self.pre = pre
@@ -39,7 +35,8 @@ class Feature:
             type_name = type_.__name__
             self.features[type_name] = set()
 
-    def make_features(self, sentences, len_=4):
+    def make_features(self, sentences_, len_=4):
+        sentences = [clean_text(sent) for sent in sentences_]
         for feature_func in self.feature_types:
             type_name = feature_func.__name__
             if "order" in type_name:
@@ -63,10 +60,11 @@ class Feature:
         self.feature_num = len(self.feature_number_dict)
 
 
-    def featurization(self, sentences, len_=4):
-        if isinstance(sentences, str):
-            sentences = [sentences]
+    def featurization(self, sentences_, len_=4):
+        if isinstance(sentences_, str):
+            sentences_ = [sentences_]
         # print("feature num: ", self.feature_num)
+        sentences = [clean_text(sent) for sent in sentences_]
         x = np.zeros( self.feature_num )
         for feature_func in self.feature_types:
             type_name = feature_func.__name__
@@ -91,8 +89,9 @@ class Feature:
 
         pos = self.pre.get_POS(sentences)
         # 句読点の句点を50%で削除
-        random_deleted = map(self.delete_func, pos)
-        filled = map(self.filler_func, random_deleted)
+        # random_deleted = map(self.delete_func, pos)
+        # filled = map(self.filler_func, random_deleted)
+        filled = self.fill_SYMBOL(pos)
         
         feature_set = set()
         for L in filled:
@@ -107,8 +106,9 @@ class Feature:
         type_ = self.f_normalize_Noun_order.__name__
 
         normal = self.pre.noun2normal(sentences)
-        random_deleted = map(self.delete_func, normal)
-        filled = map(self.filler_func, random_deleted)
+        # random_deleted = map(self.delete_func, normal)
+        # filled = map(self.filler_func, random_deleted)
+        filled = self.fill_SYMBOL(normal)
 
         feature_set = set()
         for L in filled:
@@ -125,8 +125,9 @@ class Feature:
         # doc = self.pre.nlp(senteces)
         token_lem = self.pre.get_lemma(sentences)
 
-        random_deleted = map(self.delete_func, token_lem)
-        filled = map(self.filler_func, random_deleted)
+        # random_deleted = map(self.delete_func, token_lem)
+        # filled = map(self.filler_func, random_deleted)
+        filled = self.fill_SYMBOL(token_lem)
 
         feature_set = set()
         for L in filled:
@@ -140,8 +141,9 @@ class Feature:
         type_ = self.f_normalize_Noun_order.__name__
 
         normal = self.pre.independent2normal(sentences)
-        random_deleted = map(self.delete_func, normal)
-        filled = map(self.filler_func, random_deleted)
+        # random_deleted = map(self.delete_func, normal)
+        # filled = map(self.filler_func, random_deleted)
+        filled = self.fill_SYMBOL(normal)
 
         feature_set = set()
         for L in filled:
@@ -155,8 +157,9 @@ class Feature:
         type_ = self.f_normalize_Noun_order.__name__
 
         normal = self.pre.noun_verb_2normal(sentences)
-        random_deleted = map(self.delete_func, normal)
-        filled = map(self.filler_func, random_deleted)
+        # random_deleted = map(self.delete_func, normal)
+        # filled = map(self.filler_func, random_deleted)
+        filled = self.fill_SYMBOL(normal)
 
         feature_set = set()
         for L in filled:
@@ -203,8 +206,8 @@ class Feature:
 
 
 
-if __name__ == '__main__':
-    texts = ['そうですね。最近とても暑いですから。', '休日に行きたいと思いますが，あなたもいかがですか？']
+# if __name__ == '__main__':
+#     texts = ['そうですね。最近とても暑いですから。', '休日に行きたいと思いますが，あなたもいかがですか？']
 #     texts = ['そうですね。',
 #  '最近とても暑いですから。',
 #  '休日に行きたいと思います。',
@@ -219,11 +222,9 @@ if __name__ == '__main__':
 #  '明日はとても暑くなるみたいですね。',
 #  '涼しくなってきたら、一緒に山へ行きたいですね。']
     # texts = texts[0]
-    F = Feature()
-    pos = F.f_pos_order(texts)
-    # normal = features.f_normalize_noun_order(texts)
+    # F = Feature()
+    # F.set_preprocessor(preprocess.Preprocessor())
+    # # pos = features.f_pos_order(texts)
+    # # normal = features.f_normalize_noun_order(texts)
     # F.make_features(texts)
     # F.show_features()
-    doc = F.pre.nlp(texts[1])
-    for token in doc:
-        print(token, token.tag_)

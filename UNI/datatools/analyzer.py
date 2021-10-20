@@ -6,6 +6,9 @@ import pandas as pd
 import json
 from pathlib import Path
 
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn import metrics
+
 nlp = spacy.load('ja_ginza')
 
 # ginza のプリセット
@@ -176,6 +179,61 @@ def read_json_with_NoErr(path:str, datalist:list) -> pd.DataFrame:
     df.reset_index(inplace=True, drop=True)
     return df
     
+
+class Utterance:
+    utt_level = ["Wrong information", "Semantic error", "Uninterpretable", "Grammatical error"]
+    def __init__(self, did, sp, utt, errors, type_) -> None:
+        self.did = did
+        self.sp = sp
+        self.utt = utt
+        self.errors = errors
+        self.type_ = type_
+    
+    def __str__(self):
+        return "{0}: {1}".format(self.sp, self.utt)
+
+    def is_system(self):
+        return True if self.sp=="S" else False
+    
+    def is_error_included(self, error):
+        # Null 対応
+        if not self.errors:
+            return False
+        return error in self.errors
+    
+    def is_exist_error(self):
+        return True if self.errors else False
+    
+    def is_type_included(self, type_):
+        return type_ in self.type_
+    
+    def is_utt_level_error(self):
+        for e in Utterance.utt_level:
+            if self.is_error_included(e):
+                return True
+        return False
+    
+
+
+def read_conv(path:str, datalist:list):
+    convs = []
+    for p in datalist:
+        datapath = Path(path + p + '/')
+        for file_ in datapath.glob("*.json"):
+            conv = []
+            with open(file_, "r") as f:
+                json_data = json.load(f)
+                did = json_data["did"]
+                for t in json_data["turns"]:
+                    sp = t["speaker"]
+                    utt = t["utterance"]
+                    errors = t["error_category"]
+                    type_ = t["type"]
+                    one = Utterance(did, sp, utt, errors, type_)
+                    conv.append(one)
+            convs.append(conv)
+    return convs  
+
 
 
 if __name__ == '__main__':
