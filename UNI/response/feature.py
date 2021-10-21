@@ -11,7 +11,7 @@ class Feature:
         # 用いる素性テンプレート(関数名)
         self.feature_types = [
             self.f_pos_order, 
-            # self.f_normalize_Noun_order,
+            self.f_normalize_Noun_order,
             # self.f_order,
             # self.f_normalize_independent_order,
             self.f_normalize_Noun_Verb_order

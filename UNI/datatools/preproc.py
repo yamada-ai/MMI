@@ -107,18 +107,18 @@ class Preprocessor:
     
     def noun2normal(self, sen):
         normalize_sen = []
-        docs = list(self.nlp(sen, disable=['ner']))
+        docs = list(self.nlp.pipe(sen, disable=['ner']))
         for doc in docs:
-            normalize_sen.append( [ token.tag_ if "名詞" in token.tag_ else token.lemma_ for token in doc ] )
-        # for doc in docs:
-        #     words = []
-        #     for token in doc:
-        #         tag = token.tag_.split("-")[0]
-        #         # print(tag)
-        #         if tag in ["名詞", "動詞"] :
-        #             # print(token.lemma_)
-        #             words.append(token.lemma_)
-        #     normalize_sen.append(words)
+            words = []
+            for token in doc:
+                tag = token.tag_.split("-")[0]
+                # print(tag)
+                if tag in ["名詞"]:
+                    # print(token.lemma_)
+                    words.append(token.tag_)
+                else:
+                    words.append(token.lemma_)
+            normalize_sen.append(words)
         return normalize_sen
     
     def independent2normal(self, sen):

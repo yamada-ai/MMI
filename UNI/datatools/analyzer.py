@@ -188,6 +188,11 @@ class Utterance:
         self.utt = utt
         self.errors = errors
         self.type_ = type_
+
+        self.is_utt_error = False
+        for e in Utterance.utt_level:
+            if self.is_error_included(e):
+                self.is_utt_error = True
     
     def __str__(self):
         return "{0}: {1}".format(self.sp, self.utt)
@@ -207,11 +212,11 @@ class Utterance:
     def is_type_included(self, type_):
         return type_ in self.type_
     
+    def is_exist_type(self):
+        return True if self.type_ else False
+    
     def is_utt_level_error(self):
-        for e in Utterance.utt_level:
-            if self.is_error_included(e):
-                return True
-        return False
+        return self.is_utt_error
     
 
 
