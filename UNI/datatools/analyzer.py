@@ -204,8 +204,16 @@ class Utterance:
         # Null 対応
         if not self.errors:
             return False
-        return error in self.errors
-    
+        if isinstance(error, list):
+            is_inclued = False
+            for e in error:
+                is_inclued = is_inclued or (e in self.errors)
+            return is_inclued
+        elif isinstance(error, str):
+            return error in self.errors
+        else:
+            return False
+
     def is_exist_error(self):
         return True if self.errors else False
     
