@@ -83,3 +83,20 @@ https://aclanthology.org/2021.sigdial-1.10/
     一貫性は、対話モデルが直面する長年の問題です。このホワイトペーパーでは、対話エージェントの一貫性を自然言語推論（NLI）としてフレーム化し、DialogueNLIと呼ばれる新しい自然言語推論データセットを作成します。Dialogue NLIでトレーニングされたモデルを使用して、対話モデルの一貫性を改善できることを示す方法を提案し、対話モデルの一貫性を測定するように設計された一連の評価セットで、人間による評価と自動メトリックを使用して方法を評価します。
 
 
+
+----------------------
+発話ベクトルの差分特徴量を用いた雑談対話システムにおける
+破綻した話題遷移の検出
+https://ahcweb01.naist.jp/papers/conference/2017/201803_NLP_Toyoshima_1/201803_NLP_Toyoshima_1.paper.pdf
+
+
+Generative Chat Bot Implementation Using Deep Recurrent Neural Networks and Natural Language Understanding
+自然言語理解 NLU のやつかな？
+
+基盤化に基づく修復発話の理解
+https://anlp.jp/proceedings/annual_meeting/2005/pdf_dir/D1-4.pdf
+
+
+特徴を考慮した対話行為推定
+https://www.jstage.jst.go.jp/article/jnlp/24/4/24_523/_pdf/-char/ja
+
