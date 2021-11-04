@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.10.7)  30 OCT 2021 12:58
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.10.7)  3 NOV 2021 14:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -84,7 +84,7 @@ File: l3backend-dvipdfmx.def 2020-09-24 L3 backend support: dvipdfmx
 LaTeX Warning: Unused global option(s):
     [upLaTex].
 
-No file test2.aux.
+(./test2.aux)
 \openout1 = `test2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
@@ -105,6 +105,7 @@ LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
 LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
+
 *geometry* detected driver: dvipdfm
 *geometry* verbose mode - [ preamble ] result:
 * driver: dvipdfm
@@ -139,42 +140,25 @@ LaTeX Font Info:    ... okay on input line 9.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 16.
+(Font)              scaled to size 16.60605pt on input line 17.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 16.
+(Font)              scaled to size 16.60605pt on input line 17.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 16.
+(Font)              scaled to size 11.53198pt on input line 17.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 16.
+(Font)              scaled to size 11.53198pt on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 16.
+(Font)              <12> on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 16.
+(Font)              <8> on input line 17.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 16.
+(Font)              <6> on input line 17.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 16.
+(Font)              scaled to size 5.76599pt on input line 17.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 18.
+(Font)              scaled to size 11.53198pt on input line 19.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 18.
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 19.
-LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 19.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 19.
-LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 19.
-
-LaTeX Warning: Citation `higashinaka' on page 1 undefined on input line 19.
-
-
-LaTeX Warning: Citation `hori' on page 1 undefined on input line 24.
-
-
-LaTeX Warning: Citation `K' on page 1 undefined on input line 25.
-
+(Font)              scaled to size 11.53198pt on input line 19.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -187,21 +171,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ]
 [2
 
-] (./test2.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+] (./test2.aux) ) 
 Here is how much of TeX's memory you used:
- 1196 strings out of 480388
- 17851 string characters out of 5898321
- 305282 words of memory out of 5000000
- 18030 multiletter control sequences out of 15000+600000
- 544722 words of font info for 72 fonts, out of 8000000 for 9000
+ 1194 strings out of 480388
+ 17822 string characters out of 5898321
+ 306285 words of memory out of 5000000
+ 18027 multiletter control sequences out of 15000+600000
+ 544133 words of font info for 69 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 60i,7n,66p,567b,265s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,7n,66p,587b,265s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on test2.dvi (2 pages, 8444 bytes).
+Output written on test2.dvi (2 pages, 7060 bytes).
