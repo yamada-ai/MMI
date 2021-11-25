@@ -21,3 +21,14 @@ SocialIQA: Commonsense Reasoning about Social Interactions
 	https://arxiv.org/abs/1904.09728?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%253A+arxiv%252FQSXk+%2528ExcitingAds%2521+cs+updates+on+arXiv.org%2529
 
 
+-----------
+
+社会性欠如
+	ラベルについて
+	1 : ユーザ(相手)を攻撃
+	2 : 特定の人間，団体を攻撃
+	3 : 卑下
+	4 : 無礼
+	5 : そうではない
+
+
