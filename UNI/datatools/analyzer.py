@@ -1,8 +1,10 @@
 
 from numpy.lib.arraysetops import isin
 import spacy
+import ginza
 
 import pandas as pd
+import numpy as np
 import json
 from pathlib import Path
 
@@ -85,6 +87,9 @@ pos_preset = [
 
 filler_func = lambda L: ["FOS", "FOS",  *L, "EOS", "EOS"]
 
+
+independent_set = set("NOUN PROPN VERB ADJ ADV PRON NUM".split())
+
 import neologdn
 import re
 from sudachipy import tokenizer
@@ -105,39 +110,57 @@ def fill_SYMBOL(L):
 def get_all_pos_dict():
     return dict( zip(pos_preset, range(len(pos_preset))) )
 
-def sentence2pos(sen) -> list:
-    pos_list = []
+# 修辞
+def rhetoricasl_independet(sen):
+    docs = sentence2docs(sen, sents_span=False)
+    independent = []
+    for doc in docs:
+        words = []
+        for token in doc:
+            if token.pos_ in independent_set:
+                    # print(token.lemma_)
+                words.append(token.lemma_)
+            # else:
+            #      words.append(token.orth_)
+        independent.append(words)
+    return independent
+
+def sentence2docs(sen, sents_span=True):
     if isinstance(sen, str):
         doc = nlp(sen)
-        texts = [str(s)  for s in doc.sents]
+        # 普通の処理
+        if sents_span:
+            texts = [str(s)  for s in doc.sents]
+        # 文章で区切らない
+        else:
+            texts = [sen]
     
     elif isinstance(sen, list):
         texts = []
-        docs = list(nlp.pipe(sen, disable=['ner']))
-        for doc in docs:
-            texts.extend( [str(s) for s in doc.sents] )
+        if sents_span:
+            docs = list(nlp.pipe(sen, disable=['ner']))
+            for doc in docs:
+                texts.extend( [str(s) for s in doc.sents] )
+        # 区切らない
+        else:
+            texts = sen
     else:
         return None
     
     docs = list(nlp.pipe(texts, disable=['ner']))
+
+    return docs
+
+def sentence2pos(sen) -> list:
+    pos_list = []
+    docs = sentence2docs(sen)
     for doc in docs:
         pos_list.append([ token.tag_ for token in doc ])    
     return pos_list
 
 def sentence2normalize_nv(sen) -> list:
     normalize_sen = []
-    if isinstance(sen, str):
-        doc = nlp(sen)
-        texts = [str(s)  for s in doc.sents]
-    
-    elif isinstance(sen, list):
-        texts = []
-        docs = list(nlp.pipe(sen, disable=['ner']))
-        for doc in docs:
-            texts.extend( [str(s) for s in doc.sents] )
-    else:
-        return None
-    docs = list(nlp.pipe(texts, disable=['ner']))
+    docs = sentence2docs(sen)
     for doc in docs:
         words = []
         for token in doc:
@@ -149,7 +172,49 @@ def sentence2normalize_nv(sen) -> list:
             else:
                  words.append(token.orth_)
         normalize_sen.append(words)
-    return normalize_sen         
+    return normalize_sen
+
+def sentence2normalize_noun(sen) -> list:
+    normalize_sen = []
+    docs = sentence2docs(sen)
+    for doc in docs:
+        words = []
+        for token in doc:
+            tag = token.tag_.split("-")[0]
+                # print(tag)
+            if tag in ["名詞"]:
+                    # print(token.lemma_)
+                words.append(token.tag_)
+            else:
+                 words.append(token.orth_)
+        normalize_sen.append(words)
+    return normalize_sen
+
+def sentence2normalize_independent(sen) -> list:
+    normalize_sen = []
+    docs = sentence2docs(sen)
+    for doc in docs:
+        words = []
+        for token in doc:
+            # tag = token.tag_.split("-")[0]
+                # print(tag)
+            if token.pos_ in independent_set:
+                    # print(token.lemma_)
+                words.append(token.tag_)
+            else:
+                 words.append(token.orth_)
+        normalize_sen.append(words)
+    return normalize_sen              
+
+def is_contain_independent(text:str) -> bool:
+    doc = nlp(text)
+    for token in doc:
+        for token in doc:
+            if token.pos_ in independent_set:
+                return True
+    
+    return False
+
 
 def read_json_with_NoErr(path:str, datalist:list) -> pd.DataFrame:
     cols = ['did', 'tid', 'usr', 'sys', 'ec']
