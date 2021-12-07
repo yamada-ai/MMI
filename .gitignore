@@ -5,6 +5,7 @@ corpus/
 UNI/error_category_classification/
 UNI/nucc/
 UNI/hand_labeled
+UNI/eval_labeled
 UNI/models/
 UNI/X_y_data/
 UNI/__pycache__
