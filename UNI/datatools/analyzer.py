@@ -13,6 +13,14 @@ from sklearn import metrics
 
 nlp = spacy.load('ja_ginza')
 
+import MeCab
+from wakame.tokenizer import Tokenizer
+from wakame.analyzer import Analyzer
+from wakame.charfilter import *
+from wakame.tokenfilter import *
+tokenizer_ = Tokenizer(use_neologd=True)
+
+
 # ginza のプリセット
 pos_preset = [
     "pad",
@@ -101,8 +109,16 @@ def clean_text(text):
     text_ = neologdn.normalize(text)
     text_ = re.sub(r'\(.*\)', "", text_)
     text_ = re.sub(r'\d+', "0", text_)
-    text_  = "".join( [m.normalized_form() if m.part_of_speech()[0]=="名詞" else m.surface() for m in tokenizer_obj.tokenize(text, tmode)] )
+    text_  = "".join( [m.normalized_form() if m.part_of_speech()[0]=="名詞" else m.surface() for m in tokenizer_obj.tokenize(text_, tmode)] )
+    if "？？" in text_:
+        text_ = text_.replace("？？", "？")
     return text_
+
+def normalized_span(text):
+    return [m.normalized_form() for m in tokenizer_obj.tokenize(text, tmode)]
+
+def mecab_tokenize(text):
+    return tokenizer_.tokenize(text, wakati=True)
 
 def fill_SYMBOL(L):
     return list(map(filler_func, L))
@@ -111,7 +127,20 @@ def get_all_pos_dict():
     return dict( zip(pos_preset, range(len(pos_preset))) )
 
 # 修辞
-def rhetoricasl_independet(sen):
+from tqdm import tqdm
+def rhetoricasl_and_words(sen):
+    # docs = sentence2docs(sen, sents_span=False)
+    rhetoricasl = []
+    for s in tqdm( sen ) :
+        doc = nlp(s)
+        phrases = ginza.bunsetu_phrase_spans(doc)
+        phrase_otrh = [ str(p) for p in phrases ]
+        rhetoricasl.append( list ( set( phrase_otrh + [token.lemma_ for token in doc] )  ) )
+        # rhetoricasl.extend( )
+    return rhetoricasl
+    # return rhetoricasl
+
+def extract_independet(sen):
     docs = sentence2docs(sen, sents_span=False)
     independent = []
     for doc in docs:
@@ -157,6 +186,16 @@ def sentence2pos(sen) -> list:
     for doc in docs:
         pos_list.append([ token.tag_ for token in doc ])    
     return pos_list
+
+def sentence2morpheme(sen)-> list:
+    docs = sentence2docs(sen)
+    morpheme_list = []
+    for doc in docs:
+        morpheme = []
+        for token in doc:
+            morpheme.append(token.orth_)
+        morpheme_list.append(morpheme)
+    return morpheme_list
 
 def sentence2normalize_nv(sen) -> list:
     normalize_sen = []
