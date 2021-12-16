@@ -94,6 +94,8 @@ pos_preset = [
 ]
 
 filler_func = lambda L: ["FOS", "FOS",  *L, "EOS", "EOS"]
+filler_func_one = lambda L: ["FOS",  *L, "EOS"]
+filler_func_sep = lambda L: [*L, "[SEP]"]
 
 
 independent_set = set("NOUN PROPN VERB ADJ ADV PRON NUM".split())
@@ -122,6 +124,14 @@ def mecab_tokenize(text):
 
 def fill_SYMBOL(L):
     return list(map(filler_func, L))
+
+def fill_SYMBOL_ONE(L):
+    return list(map(filler_func_one, L))
+
+def fill_SYMBOL_SEP(L):
+    sep = list(map(filler_func_sep, L[:-1]))
+    sep.append(L[-1])
+    return sep
 
 def get_all_pos_dict():
     return dict( zip(pos_preset, range(len(pos_preset))) )
@@ -180,15 +190,15 @@ def sentence2docs(sen, sents_span=True):
 
     return docs
 
-def sentence2pos(sen) -> list:
+def sentence2pos(sen, sents_span=True) -> list:
     pos_list = []
-    docs = sentence2docs(sen)
+    docs = sentence2docs(sen, sents_span)
     for doc in docs:
         pos_list.append([ token.tag_ for token in doc ])    
     return pos_list
 
-def sentence2morpheme(sen)-> list:
-    docs = sentence2docs(sen)
+def sentence2morpheme(sen, sents_span=True)-> list:
+    docs = sentence2docs(sen, sents_span)
     morpheme_list = []
     for doc in docs:
         morpheme = []
@@ -197,9 +207,9 @@ def sentence2morpheme(sen)-> list:
         morpheme_list.append(morpheme)
     return morpheme_list
 
-def sentence2normalize_nv(sen) -> list:
+def sentence2normalize_nv(sen, sents_span=True) -> list:
     normalize_sen = []
-    docs = sentence2docs(sen)
+    docs = sentence2docs(sen, sents_span)
     for doc in docs:
         words = []
         for token in doc:
@@ -213,9 +223,9 @@ def sentence2normalize_nv(sen) -> list:
         normalize_sen.append(words)
     return normalize_sen
 
-def sentence2normalize_noun(sen) -> list:
+def sentence2normalize_noun(sen, sents_span=True) -> list:
     normalize_sen = []
-    docs = sentence2docs(sen)
+    docs = sentence2docs(sen, sents_span)
     for doc in docs:
         words = []
         for token in doc:
@@ -229,9 +239,9 @@ def sentence2normalize_noun(sen) -> list:
         normalize_sen.append(words)
     return normalize_sen
 
-def sentence2normalize_independent(sen) -> list:
+def sentence2normalize_independent(sen, sents_span=True) -> list:
     normalize_sen = []
-    docs = sentence2docs(sen)
+    docs = sentence2docs(sen, sents_span)
     for doc in docs:
         words = []
         for token in doc:
