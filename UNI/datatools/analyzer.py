@@ -9,9 +9,13 @@ import json
 from pathlib import Path
 
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.model_selection import train_test_split
 from sklearn import metrics
 
 nlp = spacy.load('ja_ginza')
+import collections
+
+from tqdm import tqdm
 
 import MeCab
 from wakame.tokenizer import Tokenizer
@@ -100,6 +104,7 @@ filler_func_sep = lambda L: [*L, "[SEP]"]
 
 
 independent_set = set("NOUN PROPN VERB ADJ ADV PRON NUM".split())
+toyoshima_set = set("NOUN PROPN VERB ADJ".split())
 
 import neologdn
 import re
@@ -361,6 +366,18 @@ def read_conv(path:str, datalist:list):
                     conv.append(one)
             convs.append(conv)
     return convs  
+
+
+def score(test, pred):
+    if len(collections.Counter(pred)) <= 2:
+        print('confusion matrix = \n', confusion_matrix(y_true=test, y_pred=pred))
+        print('accuracy = ', accuracy_score(y_true=test, y_pred=pred))
+        print('precision = ', precision_score(y_true=test, y_pred=pred))
+        print('recall = ', recall_score(y_true=test, y_pred=pred))
+        print('f1 score = ', f1_score(y_true=test, y_pred=pred))
+    else:
+        print('confusion matrix = \n', confusion_matrix(y_true=test, y_pred=pred))
+        print('accuracy = ', accuracy_score(y_true=test, y_pred=pred))
 
 
 
