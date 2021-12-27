@@ -13,14 +13,14 @@ from sklearn import metrics
 
 nlp = spacy.load('ja_ginza')
 
-# import MeCab
-# from wakame.tokenizer import Tokenizer
-# from wakame.analyzer import Analyzer
-# from wakame.charfilter import *
-# from wakame.tokenfilter import *
-# tokenizer_ = Tokenizer(use_neologd=True)
+import MeCab
+from wakame.tokenizer import Tokenizer
+from wakame.analyzer import Analyzer
+from wakame.charfilter import *
+from wakame.tokenfilter import *
+tokenizer_ = Tokenizer(use_neologd=True)
 
-tokenizer_  = None
+# tokenizer_  = None
 
 # ginza のプリセット
 pos_preset = [
