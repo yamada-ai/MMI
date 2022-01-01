@@ -12,6 +12,8 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 
+from tqdm import tqdm
+
 nlp = spacy.load('ja_ginza')
 import collections
 
