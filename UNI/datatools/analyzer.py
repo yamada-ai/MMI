@@ -103,6 +103,7 @@ pos_preset = [
 
 filler_func = lambda L: ["FOS", "FOS",  *L, "EOS", "EOS"]
 filler_func_one = lambda L: ["FOS",  *L, "EOS"]
+# filler_func_google = lambda L: ["FOS",  *L, "EOS"]
 filler_func_sep = lambda L: [*L, "[SEP]"]
 
 
