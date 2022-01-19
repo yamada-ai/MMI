@@ -25,7 +25,7 @@ from wakame.tokenizer import Tokenizer
 from wakame.analyzer import Analyzer
 from wakame.charfilter import *
 from wakame.tokenfilter import *
-# tokenizer_ = Tokenizer(use_neologd=True)
+tokenizer_ = Tokenizer(use_neologd=True)
 
 # tokenizer_  = None
 
@@ -122,8 +122,7 @@ def clean_text(text):
     text_ = re.sub(r'\(.*\)', "", text_)
     text_ = re.sub(r'\d+', "0", text_)
     text_  = "".join( [m.normalized_form() if m.part_of_speech()[0]=="名詞" else m.surface() for m in tokenizer_obj.tokenize(text_, tmode)] )
-    if "？？" in text_:
-        text_ = text_.replace("？？", "？")
+    text_ = text_.replace("??", "?")
     return text_
 
 def normalized_span(text):
