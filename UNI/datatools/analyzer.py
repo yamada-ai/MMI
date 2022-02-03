@@ -384,6 +384,8 @@ def score(test, pred):
 
 
 
+
+
 if __name__ == '__main__':
     texts = ['そうですね。',
  '最近とても暑いですから。',
